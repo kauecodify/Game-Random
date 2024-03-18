@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>MathGainLab</title>
+</head>
+<body>
+
+<h1>MathGainLab</h1>
+<p>Você gostaria de jogar um jogo?</p>
+<p>Insira o valor desejado para alocar:</p>
+<input type="number" id="valorInput" placeholder="Insira o valor" step="0.01">
+<button onclick="jogar()">Jogar!</button>
+<p id="saldo">Seu saldo atual: R$ <span id="saldoAtual">0.00</span></p>
+
+<p>Deseja depositar seu saldo na conta bancária?</p>
+<p>Insira o valor a ser depositado:</p>
+<input type="number" id="valorDeposito" placeholder="Insira o valor" step="0.01">
+<button onclick="depositar()">Depositar</button>
+
+<script>
+    let saldo = 0.00;
+    let saldoDaContaBancaria = 0.00;
+
+    function jogar() {
+        const valor = parseFloat(document.getElementById("valorInput").value);
+        if (isNaN(valor) || valor <= 0) {
+            alert("Por favor, insira um valor válido.");
+            return;
+        }
+
+        const resultado = Math.random();
+        if (resultado < 0.7) {
+            alert("Que pena! Você perdeu!");
+            saldo -= valor; // Remove todo o valor alocado do saldo quando o usuário perde
+        } else {
+            alert("Parabéns! Você ganhou!");
+
+            saldo += valor; // Adiciona o valor alocado ao saldo quando o usuário ganha
+        }
+        atualizarSaldo();
+    }
+
+    function depositar() {
+        const valorDeposito = parseFloat(document.getElementById("valorDeposito").value);
+        if (isNaN(valorDeposito) || valorDeposito <= 0) {
+            alert("Por favor, insira um valor válido para depositar.");
+            return;
+        }
+        
+        saldoDaContaBancaria += valorDeposito;
+        atualizarSaldo();
+        alert("Seu saldo foi depositado na conta bancária com sucesso!");
+    }
+
+    function atualizarSaldo() {
+        document.getElementById("saldoAtual").textContent = saldo.toFixed(2);
+        document.getElementById("saldoContaBancaria").textContent = saldoDaContaBancaria.toFixed(2);
+    }
+</script>
+
+<p id="ganhoExtra"></p>
+<p>Saldo da conta bancária: R$ <span id="saldoContaBancaria">0.00</span></p>
+
+</body>
+</html>
